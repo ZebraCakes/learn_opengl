@@ -6,6 +6,6 @@ SET CommonLinkerFlags=-incremental:no -opt:ref opengl32.lib user32.lib gdi32.lib
 IF NOT EXIST ..\build mkdir ..\build
 pushd ..\build
 
-cl %CommonCompilerFlags% ..\src\main.cpp -link %CommonLinkerFlags%
+cl %CommonCompilerFlags% ..\src\%1 -link %CommonLinkerFlags%
 
 popd
