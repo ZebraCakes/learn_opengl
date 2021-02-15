@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "glad.c"
+#include "../glad.c"
 #include <GLFW/glfw3.h>
 #include <amp_lib/amp_def.h>
 

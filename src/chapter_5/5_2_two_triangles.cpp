@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "glad.c"
+#include "../glad.c"
 #include <GLFW/glfw3.h>
 #include <amp_lib/amp_def.h>
 
@@ -43,27 +43,38 @@ int main(/*int arg_count, char** args*/)
             glViewport(0, 0, 800, 600);
             glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-            r32 vertices[] = 
+            r32 vert1[] =
             {
-                -0.5, -0.5,  0.0,
-                 0.5, -0.5,  0.0,
-                 0.0,  0.5,  0.0
+                -0.75, -0.5,  0.0,
+                -0.25, -0.5,  0.0,
+                -0.5,   0.5,  0.0
             };
 
-            u32 vbo;
-            glGenBuffers(1, &vbo);
-            
-            glBindBuffer(GL_ARRAY_BUFFER, vbo);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-            
+            r32 vert2[] = 
+            {
+                 0.25, -0.5,  0.0,
+                 0.75, -0.5,  0.0,
+                 0.5 ,  0.5,  0.0
+            };
 
-            u32 vao;
-            glGenVertexArrays(1, &vao);
+            u32 vaos[2];
+            glGenVertexArrays(2, vaos);
+
+            u32 vbos[2] = {};
+            glGenBuffers(2, vbos);
             
-            glBindVertexArray(vao);
+            glBindVertexArray(vaos[0]);
+            glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(vert1), vert1, GL_STATIC_DRAW);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(r32), nullptr);
             glEnableVertexAttribArray(0);
 
+            glBindVertexArray(vaos[1]);
+            glBindBuffer(GL_ARRAY_BUFFER, vbos[1]);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(vert2), vert2, GL_STATIC_DRAW);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(r32), nullptr);
+            glEnableVertexAttribArray(0);
+            
             const char* vertex_shader_source =
                 "#version 330 core\n"
                 "layout (location = 0) in vec3 aPos;\n"
@@ -119,12 +130,17 @@ int main(/*int arg_count, char** args*/)
                             // In later chapters, we would bind/unbind vaos/vbos/ebos here,
                             // but since it's all one set for now we just bind before the 
                             // loop and forget about it.
+
                             glClearColor(0.2, 0.3, 0.3, 1.0);
                             glClear(GL_COLOR_BUFFER_BIT);
 
                             glUseProgram(shader_program);
+                            glBindVertexArray(vaos[0]);
                             glDrawArrays(GL_TRIANGLES, 0, 3);
                             
+                            glBindVertexArray(vaos[1]);
+                            glDrawArrays(GL_TRIANGLES, 0, 3);
+
 
                             glfwSwapBuffers(window);
                         }
