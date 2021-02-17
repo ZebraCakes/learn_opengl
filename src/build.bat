@@ -8,4 +8,6 @@ pushd ..\build
 
 cl %CommonCompilerFlags% ..\src\%1 -link %CommonLinkerFlags%
 
+IF EXIST ..\src\shaders xcopy ..\src\shaders shaders\ /E/H/y
+
 popd
