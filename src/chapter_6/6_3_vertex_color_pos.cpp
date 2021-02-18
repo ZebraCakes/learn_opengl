@@ -70,7 +70,8 @@ int main(/*int arg_count, char** args*/)
             glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(r32), (void*)(3 * sizeof(r32)));
             glEnableVertexAttribArray(1);
 
-            compiled_shader shader = compile_shader_program_from_files("shaders/shader_basics.vs", "shaders/shader_basics.fs");
+            compiled_shader shader = compile_shader_program_from_files("shaders/6_3_vertex_color_pos.vs",
+                                                                       "shaders/6_3_vertex_color_pos.fs");
 
             if (shader.id != SHADER_ERROR)
             {

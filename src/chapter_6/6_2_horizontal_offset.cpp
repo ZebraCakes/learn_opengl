@@ -70,7 +70,7 @@ int main(/*int arg_count, char** args*/)
             glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(r32), (void*)(3 * sizeof(r32)));
             glEnableVertexAttribArray(1);
 
-            compiled_shader shader = compile_shader_program_from_files("shaders/shader_basics.vs", "shaders/shader_basics.fs");
+            compiled_shader shader = compile_shader_program_from_files("shaders/6_2_horizontal_offset.vs", "shaders/shader_basics.fs");
 
             if (shader.id != SHADER_ERROR)
             {
@@ -88,6 +88,12 @@ int main(/*int arg_count, char** args*/)
                     glClear(GL_COLOR_BUFFER_BIT);
 
                     glUseProgram(shader.id);
+
+                    i32 offset_location = glGetUniformLocation(shader.id, "horizontal_offset");
+                    
+                    r64 time = glfwGetTime();
+                    r32 x_offset = (r32)((sin(time)*0.5));
+                    glUniform1f(offset_location, x_offset);
 
                     glDrawArrays(GL_TRIANGLES, 0, 3);
 
